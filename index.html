@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Portofolio Saya</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #555555 100%);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            animation: backgroundAnimation 20s infinite alternate;
+        }
+
+        @keyframes backgroundAnimation {
+            0% {
+                background: linear-gradient(135deg, #000000 0%, #555555 100%);
+            }
+            50% {
+                background: linear-gradient(135deg, #333333 0%, #777777 100%);
+            }
+            100% {
+                background: linear-gradient(135deg, #000000 0%, #555555 100%);
+            }
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: rise 15s infinite ease-in;
+        }
+
+        .bubble:nth-child(1) { width: 80px; height: 80px; left: 10%; animation-delay: 0s; }
+        .bubble:nth-child(2) { width: 100px; height: 100px; left: 20%; animation-delay: 2s; }
+        .bubble:nth-child(3) { width: 60px; height: 60px; left: 35%; animation-delay: 4s; }
+        .bubble:nth-child(4) { width: 90px; height: 90px; left: 50%; animation-delay: 0s; }
+        .bubble:nth-child(5) { width: 70px; height: 70px; left: 70%; animation-delay: 3s; }
+        .bubble:nth-child(6) { width: 110px; height: 110px; left: 85%; animation-delay: 5s; }
+
+        @keyframes rise {
+            to {
+                bottom: 110%;
+                transform: translateX(100px);
+            }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #fff;
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+        }
+
+        nav a:hover {
+            transform: translateY(-2px);
+        }
+
+        nav a.active {
+            font-weight: 700;
+        }
+
+        .home-section {
+            min-height: 100vh;
+            padding: 100px 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .home-content h1 {
+            font-size: 72px;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .home-content .gradient-text {
+            background: linear-gradient(45deg, #fff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .home-content p {
+            font-size: 24px;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease 0.2s backwards;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.4s backwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid #fff;
+            border-radius: 50px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            background: #fff;
+            color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .profile-image {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 5px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .social-icons {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .social-icon img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: contain;
+            transition: transform 0.3s;
+        }
+
+        .social-icon img:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 20px;
+            }
+
+            nav ul {
+                gap: 20px;
+            }
+
+            nav a {
+                font-size: 16px;
+            }
+
+            .home-content h1 {
+                font-size: 42px;
+            }
+
+            .home-content p {
+                font-size: 18px;
+            }
+
+            .home-section {
+                padding: 80px 20px;
+            }
+        }
+        
+        /* ================= MUSIC PLAYER STYLE ================= */
+        .music-player {
+            background: #111;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 14px;
+            width: 350px; /* Adjusted width for better fit */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            font-family: Arial, sans-serif;
+            position: fixed; /* Makes the player float */
+            bottom: 20px;   /* Distance from bottom */
+            right: 20px;    /* Distance from right */
+            z-index: 1001;  /* Ensures it's above other content */
+        }
+
+        .music-cover {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .music-info {
+            flex-grow: 1;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .music-info h4 {
+            margin: 0;
+            font-size: 1rem;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .music-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+        
+        .player-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 2; /* Gives more space to controls */
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem; /* Increased gap */
+            align-items: center;
+        }
+
+        .controls button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .controls button:hover {
+            transform: scale(1.2);
+            color: #ffd700; /* Changed to match theme */
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            margin-top: 5px;
+        }
+        
+        .progress-container span {
+            font-size: 0.75rem;
+        }
+
+        #progress {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 5px;
+            background: #444;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        #progress::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            background: #ffd700;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #progress::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            background: #ffd700;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+
+    <nav>
+        <div class="logo">Portfolio</div>
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="education.html">Education</a></li>
+        </ul>
+        <div class="social-icons">
+            <a href="https://wa.me/085137756212" class="social-icon" target="_blank">
+                <img src="image/whatshap.png" alt="WhatsApp">
+            </a>
+            <a href="https://www.instagram.com/ryandhanaa02_?utm" class="social-icon" target="_blank">
+                <img src="image/4f381a45-e466-4481-ba84-2d7f1800639b.png" alt="Instagram">
+            </a>
+            <a href="https://youtube.com/@ryn3623?si=U_tJR4aaiVvznWfF" class="social-icon" target="_blank">
+                <img src="image/YOUTUBEE.png" alt="YouTube">
+            </a>
+        </div>
+    </nav>
+
+    <section class="home-section">
+        <div class="container">
+            <img src="image/profilee.jpg" alt="Foto Profil" class="profile-image">
+            <div class="home-content">
+                <h1>Halo, Saya <span class="gradient-text">I Putu Irvan Ryandhana</span></h1>
+                <p>Web Developer & Busines</p>
+                <div class="cta-buttons">
+                    <a href="about.html" class="cta-button">Kenali Saya</a>
+                    <a href="education.html" class="cta-button">Lihat Pendidikan</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="music-player">
+        <img src="image/maxresdefault.jpg" alt="Cover" class="music-cover">
+        <div class="music-info">
+            <h4>White Swan</h4>
+            <p>Overheat</p>
+        </div>
+        <div class="player-controls">
+            <div class="controls">
+                <button id="prevBtn">⏮</button>
+                <button id="playBtn">▶</button>
+                <button id="nextBtn">⏭</button>
+            </div>
+            <div class="progress-container">
+                <span id="currentTime">0:00</span>
+                <input type="range" id="progress" value="0" min="0" max="100">
+                <span id="duration">0:00</span>
+            </div>
+        </div>
+        <audio id="audioPlayer" loop>
+            <source src="music/White Swan - Overheat [Official Lyric Video] [r0Wj11aH4hY].mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <script>
+        const audio = document.getElementById("audioPlayer");
+        const playBtn = document.getElementById("playBtn");
+        const progress = document.getElementById("progress");
+        const currentTimeEl = document.getElementById("currentTime");
+        const durationEl = document.getElementById("duration");
+
+        function formatTime(seconds) {
+            const min = Math.floor(seconds / 60);
+            const sec = Math.floor(seconds % 60);
+            return `${min}:${sec < 10 ? '0' + sec : sec}`;
+        }
+
+        // Play & Pause
+        playBtn.addEventListener("click", () => {
+            if (audio.paused) {
+                audio.play();
+                playBtn.textContent = "⏸";
+            } else {
+                audio.pause();
+                playBtn.textContent = "▶";
+            }
+        });
+
+        // Update progress bar
+        audio.addEventListener("timeupdate", () => {
+            if (audio.duration) {
+                progress.value = (audio.currentTime / audio.duration) * 100;
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+            }
+        });
+
+        // Set duration when loaded
+        audio.addEventListener("loadedmetadata", () => {
+            durationEl.textContent = formatTime(audio.duration);
+        });
+
+        // Seek functionality
+        progress.addEventListener("input", () => {
+            if (audio.duration) {
+                audio.currentTime = (progress.value / 100) * audio.duration;
+            }
+        });
+
+        // Optional: Reset player when music ends
+        audio.addEventListener("ended", () => {
+            playBtn.textContent = "▶";
+            progress.value = 0;
+            currentTimeEl.textContent = "0:00";
+        });
+    </script>
+</body>
+</html>
