@@ -3,107 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portofolio I Putu Irvan Ryandhana</title>
+    <title>Portfolio - Home</title>
     <style>
-        body { margin: 0; padding: 0; background: #000; }
-        
+        body {
+            margin: 0;
+            overflow: hidden; /* Sembunyikan scrollbar body */
+        }
         iframe {
+            width: 100vw;
+            height: 100vh;
             border: none;
-            width: 100vw; 
-            height: 100vh; 
-            display: block;
+            display: block; /* Hilangkan margin bawah default iframe */
         }
-
-        /* Style untuk Kontrol BGM (Background Music) di kanan bawah */
+        /* Style untuk kontrol musik */
         #bgmControl {
-            position: fixed; 
-            bottom: 20px; 
-            right: 20px; 
-            z-index: 2000; 
-            background: rgba(255, 215, 0, 0.3); 
-            backdrop-filter: blur(5px); 
-            padding: 10px 15px; 
-            border-radius: 50px; 
-            cursor: pointer; 
-            border: 1px solid #ffd700;
-            transition: background 0.3s;
+            position: fixed;
+            top: 20px; /* Posisi di kanan atas */
+            right: 20px;
+            z-index: 1000; /* Pastikan di atas iframe */
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: sans-serif;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            transition: background 0.3s ease;
         }
-
         #bgmControl:hover {
-            background: rgba(255, 215, 0, 0.5);
+            background: rgba(0, 0, 0, 0.7);
         }
-
-        #bgmStatus {
-            color: #fff; 
-            font-size: 20px;
-            line-height: 1; 
+        #bgmIcon {
+            margin-right: 5px;
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
-    <iframe id="contentFrame" src="index.html"></iframe> 
-
     <audio id="backgroundMusic" src="music/BGM.mp3" preload="auto" muted loop></audio>
 
+    <iframe id="contentFrame" src="index.html"></iframe>
+
     <div id="bgmControl">
-        <span id="bgmStatus">🔇 Dengarkan music</span>
+        <span id="bgmIcon">🔇</span>
+        <span id="bgmStatus">Mute</span>
     </div>
-    
+
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const bgm = document.getElementById('backgroundMusic');
-            const bgmControl = document.getElementById('bgmControl');
-            const bgmStatus = document.getElementById('bgmStatus');
-            const contentFrame = document.getElementById('contentFrame');
-            
-            // Coba play BGM (dalam keadaan muted)
-            bgm.play().catch(error => {
-                console.log("Autoplay BGM gagal.");
-            });
+        const bgm = document.getElementById('backgroundMusic');
+        const bgmControl = document.getElementById('bgmControl');
+        const bgmIcon = document.getElementById('bgmIcon');
+        const bgmStatus = document.getElementById('bgmStatus');
 
-            bgmControl.addEventListener('click', () => {
-                if (bgm.muted) {
-                    bgm.muted = false; // UNMUTE
-                    bgmStatus.textContent = '🎶 Unmute';
-                    
-                    if (bgm.paused) {
-                        bgm.play().catch(e => console.log("Gagal Play BGM setelah interaksi."));
-                    }
-                } else {
-                    bgm.muted = true; // MUTE
-                    bgmStatus.textContent = '🔇 Mute';
+        // Fungsi untuk mengaktifkan audio (diperlukan untuk autoplay di sebagian browser)
+        function enableAudio() {
+            // Coba putar BGM
+            const playPromise = bgm.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // Berhasil diputar (meskipun masih muted)
+                }).catch(error => {
+                    // Autoplay diblokir, tidak masalah, nanti bisa diklik manual
+                    console.log("Autoplay BGM diblokir:", error);
+                });
+            }
+            // Hapus event listener setelah diaktifkan
+            document.removeEventListener('click', enableAudio);
+            document.removeEventListener('touchstart', enableAudio);
+            document.removeEventListener('scroll', enableAudio);
+        }
+
+        // Tambahkan event listener untuk interaksi pertama pengguna
+        document.addEventListener('click', enableAudio);
+        document.addEventListener('touchstart', enableAudio); // Untuk sentuhan di HP
+        document.addEventListener('scroll', enableAudio); // Kadang scroll juga bisa memicu
+
+        bgmControl.addEventListener('click', () => {
+            // **PENAMBAHAN UTAMA UNTUK HP: Paksa play jika paused**
+            if (bgm.paused) {
+                bgm.play().catch(e => console.log("Gagal memutar BGM setelah interaksi klik:", e));
+            }
+
+            if (bgm.muted) {
+                bgm.muted = false;
+                bgmIcon.textContent = '🔊';
+                bgmStatus.textContent = 'Unmute';
+            } else {
+                bgm.muted = true;
+                bgmIcon.textContent = '🔇';
+                bgmStatus.textContent = 'Mute';
+            }
+        });
+
+        // Tangani pesan dari iframe untuk mute BGM (saat audio sambutan diputar)
+        window.addEventListener('message', (event) => {
+            if (event.data === 'muteParentBGM') {
+                if (!bgm.muted) {
+                    bgm.muted = true;
+                    bgmIcon.textContent = '🔇';
+                    bgmStatus.textContent = 'Mute';
                 }
-            });
-
-            // Sinkronisasi: Mengontrol BGM dari dalam iframe (saat tombol Sambutan AI diklik)
-            contentFrame.onload = function() {
-                try {
-                    const frameDoc = contentFrame.contentWindow.document;
-                    const audioControlInFrame = frameDoc.getElementById('audioControl');
-
-                    if (audioControlInFrame) {
-                        // Tambahkan event listener saat kontrol Audio Sambutan di iframe diklik
-                        audioControlInFrame.addEventListener('click', () => {
-                            // Cek status audio Sambutan AI di dalam iframe
-                            const welcomeAudio = frameDoc.getElementById('welcomeAudio');
-                            
-                            // Jika Sambutan AI akan berputar (diklik dari paused)
-                            if (welcomeAudio && welcomeAudio.paused) {
-                                // Mute BGM agar suara AI terdengar jelas
-                                if (!bgm.muted) {
-                                    bgm.muted = true;
-                                    bgmStatus.textContent = '🔇 Mute';
-                                    console.log("BGM dimute karena Sambutan AI akan diputar.");
-                                }
-                            }
-                        });
-                    }
-                } catch (e) {
-                    console.warn("Tidak dapat mengakses iframe content untuk sinkronisasi audio.", e);
-                }
-            };
+            } else if (event.data === 'unmuteParentBGM') {
+                // Opsional: Jika ingin unmute BGM setelah sambutan selesai
+                // Tapi ini bisa konflik dengan status user mute/unmute
+                // Jadi lebih baik biarkan user mengontrolnya setelah sambutan
+            }
         });
     </script>
 </body>
 </html>
-
