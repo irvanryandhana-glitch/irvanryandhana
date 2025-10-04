@@ -6,46 +6,21 @@
     <title>Home - Portofolio Saya</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #000000 0%, #555555 100%); color: #fff; overflow-x: hidden; min-height: 100vh; animation: backgroundAnimation 20s infinite alternate; }
-        @keyframes backgroundAnimation { 0% { background: linear-gradient(135deg, #000000 0%, #555555 100%); } 50% { background: linear-gradient(135deg, #333333 0%, #777777 100%); } 100% { background: linear-gradient(135deg, #000000 0%, #555555 100%); } }
-        .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
-        .bubble { position: absolute; bottom: -100px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; animation: rise 15s infinite ease-in; }
-        .bubble:nth-child(1) { width: 80px; height: 80px; left: 10%; animation-delay: 0s; } .bubble:nth-child(2) { width: 100px; height: 100px; left: 20%; animation-delay: 2s; } .bubble:nth-child(3) { width: 60px; height: 60px; left: 35%; animation-delay: 4s; } .bubble:nth-child(4) { width: 90px; height: 90px; left: 50%; animation-delay: 0s; } .bubble:nth-child(5) { width: 70px; height: 70px; left: 70%; animation-delay: 3s; } .bubble:nth-child(6) { width: 110px; height: 110px; left: 85%; animation-delay: 5s; }
-        @keyframes rise { to { bottom: 110%; transform: translateX(100px); } }
-        nav { position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); padding: 20px; z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 28px; font-weight: bold; background: linear-gradient(45deg, #fff, #f0f0f0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        nav ul { display: flex; list-style: none; gap: 40px; justify-content: center; }
-        nav a { color: #fff; text-decoration: none; font-size: 18px; font-weight: 500; transition: all 0.3s; position: relative; }
-        nav a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: #fff; transition: width 0.3s; }
-        nav a:hover::after, nav a.active::after { width: 100%; }
-        nav a:hover { transform: translateY(-2px); }
-        nav a.active { font-weight: 700; }
-        .home-section { min-height: 100vh; padding: 100px 50px; display: flex; align-items: center; justify-content: center; flex-direction: column; }
-        .container { max-width: 1200px; width: 100%; text-align: center; }
-        .home-content h1 { font-size: 72px; margin-bottom: 20px; animation: fadeInUp 1s ease; }
-        .home-content .gradient-text { background: linear-gradient(45deg, #fff, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .home-content p { font-size: 24px; margin-bottom: 40px; animation: fadeInUp 1s ease 0.2s backwards; }
-        .cta-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; animation: fadeInUp 1s ease 0.4s backwards; }
-        .cta-button { display: inline-block; padding: 15px 40px; background: rgba(255, 255, 255, 0.2); border: 2px solid #fff; border-radius: 50px; color: #fff; text-decoration: none; font-size: 18px; font-weight: bold; transition: all 0.3s; }
-        .cta-button:hover { background: #fff; color: #667eea; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3); }
-        .profile-image { border-radius: 50%; width: 150px; height: 150px; object-fit: cover; margin-bottom: 20px; border: 5px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); transition: transform 0.3s, box-shadow 0.3s; }
-        .profile-image:hover { transform: scale(1.05); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); }
-        .social-icons { display: flex; align-items: center; gap: 5px; }
-        .social-icon img { width: 30px; height: 30px; border-radius: 50%; object-fit: contain; transition: transform 0.3s; }
-        .social-icon img:hover { transform: scale(1.1); }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 768px) { nav { padding: 20px; } nav ul { gap: 20px; } nav a { font-size: 16px; } .home-content h1 { font-size: 42px; } .home-content p { font-size: 18px; } .home-section { padding: 80px 20px; } }
-        
-        #bgmControl { position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: rgba(255, 215, 0, 0.3); backdrop-filter: blur(5px); padding: 10px 15px; border-radius: 50px; cursor: pointer; border: 1px solid #ffd700; transition: background 0.3s; display: flex; align-items: center; font-family: sans-serif; color: #fff; }
-        #bgmControl:hover { background: rgba(255, 215, 0, 0.5); }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #000; color: #fff; }
+        /* Saya sengaja hapus gradien dan bubble untuk sementara agar loading lebih ringan dan fokus ke musik */
+        nav { position: fixed; top: 0; width: 100%; background: rgba(25, 25, 25, 0.8); backdrop-filter: blur(10px); padding: 20px; z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 28px; font-weight: bold; }
+        nav ul { display: flex; list-style: none; gap: 40px; }
+        nav a { color: #fff; text-decoration: none; font-size: 18px; }
+        .home-section { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .profile-image { border-radius: 50%; width: 150px; height: 150px; object-fit: cover; margin-bottom: 20px; border: 5px solid rgba(255, 255, 255, 0.5); }
+        .home-content h1 { font-size: 50px; }
+        .home-content p { font-size: 24px; }
+        #bgmControl { position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: #333; padding: 10px 15px; border-radius: 50px; cursor: pointer; border: 1px solid #fff; display: flex; align-items: center; }
         #bgmIcon { font-size: 20px; margin-right: 8px; }
-        #bgmStatus { font-size: 16px; line-height: 1; }
     </style>
 </head>
 <body>
-    <div class="bg-animation">
-        <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
-    </div>
     <nav>
         <div class="logo">Portfolio</div>
         <ul>
@@ -55,32 +30,21 @@
             <li><a href="project.html">Project</a></li> 
             <li><a href="contact.html">contact</a></li>
         </ul>
-        <div class="social-icons">
-            <a href="https://wa.me/085137756212" class="social-icon" target="_blank"><img src="image/whatshap.png" alt="WhatsApp"></a>
-            <a href="https://www.instagram.com/ryandhanaa02_?utm" class="social-icon" target="_blank"><img src="image/4f381a45-e466-4481-ba84-2d7f1800639b.png" alt="Instagram"></a>
-            <a href="https://youtube.com/@ryn3623?si=U_tJR4aaiVvznWfF" class="social-icon" target="_blank"><img src="image/YOUTUBEE.png" alt="YouTube"></a>
-        </div>
     </nav>
     <section class="home-section">
-        <div class="container">
+        <div>
             <img src="image/profilee.jpg" alt="Foto Profil" class="profile-image">
             <div class="home-content">
-                <h1>Halo, Saya <span class="gradient-text">I Putu Irvan Ryandhana</span></h1>
+                <h1>Halo, Saya I Putu Irvan Ryandhana</h1>
                 <p>Web Developer & Busines</p>
-                <div class="cta-buttons">
-                    <a href="about.html" class="cta-button">Kenali Saya</a>
-                    <a href="education.html" class="cta-button">Lihat Pendidikan</a>
-                    <a href="project.html" class="cta-button">Lihat Project</a>
-                    <a href="contact.html" class="cta-button">Lihat Contact</a>
-                </div>
             </div>
         </div>
     </section>
 
-    <audio id="backgroundMusic" src="music/BGM.mp3" preload="auto" loop autoplay muted></audio>
+    <audio id="backgroundMusic" src="music/BGM.mp3" loop></audio>
     <div id="bgmControl">
         <span id="bgmIcon">🔇</span>
-        <span id="bgmStatus">Mute</span>
+        <span id="bgmStatus">Musik</span>
     </div>
 
     <script>
@@ -88,33 +52,53 @@
         const bgm = document.getElementById('backgroundMusic');
         const bgmControl = document.getElementById('bgmControl');
         const bgmIcon = document.getElementById('bgmIcon');
-        const bgmStatus = document.getElementById('bgmStatus');
+        let userHasInteracted = false;
 
-        // Coba putar BGM (dalam keadaan Muted) saat halaman baru dimuat
-        // Ini adalah cara paling aman untuk autoplay
-        const playPromise = bgm.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(error => {
-                console.log("Autoplay diblokir oleh browser, perlu interaksi pengguna.");
-            });
-        }
-
-        // Event listener untuk tombol kontrol BGM
-        bgmControl.addEventListener('click', () => {
-            if (bgm.paused) {
-                // Jika musik dijeda (terutama di HP), paksa main lagi
-                bgm.play().catch(e => console.log("Gagal memutar musik setelah diklik."));
+        function playMusic() {
+            // Hanya coba putar jika user sudah berinteraksi
+            if (userHasInteracted) {
+                const playPromise = bgm.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        // Jika berhasil, update tombol
+                        bgm.muted = false;
+                        bgmIcon.textContent = '🎶';
+                    }).catch(error => {
+                        console.error("Gagal memutar musik:", error);
+                        bgm.muted = true;
+                        bgmIcon.textContent = '🔇';
+                    });
+                }
             }
-            
-            // Logika untuk ganti status Mute/Unmute
-            if (bgm.muted) {
+        }
+        
+        // Tandai interaksi pertama user
+        function handleFirstInteraction() {
+            if (!userHasInteracted) {
+                userHasInteracted = true;
+                playMusic(); // Coba putar musik saat interaksi pertama
+                // Hapus event listener ini agar tidak berjalan lagi
+                document.body.removeEventListener('click', handleFirstInteraction);
+                document.body.removeEventListener('touchstart', handleFirstInteraction);
+            }
+        }
+        
+        document.body.addEventListener('click', handleFirstInteraction);
+        document.body.addEventListener('touchstart', handleFirstInteraction);
+
+        // Kontrol Mute/Unmute
+        bgmControl.addEventListener('click', (event) => {
+            event.stopPropagation(); // Agar tidak trigger handleFirstInteraction lagi
+            if(bgm.muted) {
                 bgm.muted = false;
                 bgmIcon.textContent = '🎶';
-                bgmStatus.textContent = 'Unmute';
+                // Jika dijeda, coba putar lagi
+                if (bgm.paused) {
+                    playMusic();
+                }
             } else {
                 bgm.muted = true;
                 bgmIcon.textContent = '🔇';
-                bgmStatus.textContent = 'Mute';
             }
         });
     });
