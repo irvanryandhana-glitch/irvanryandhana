@@ -5,93 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portofolio I Putu Irvan Ryandhana</title>
     <style>
-        body { margin: 0; padding: 0; background: #000; }
-        iframe { border: none; width: 100vw; height: 100vh; display: block; }
-        
-        /* === PERBAIKAN CSS UNTUK TOMBOL BGM === */
-        #bgmControl { 
-            position: fixed; 
-            bottom: 20px; 
-            right: 20px; 
-            z-index: 2000; 
-            background: rgba(255, 215, 0, 0.3); 
-            backdrop-filter: blur(5px); 
-            padding: 10px 15px; 
-            border-radius: 50px; 
-            cursor: pointer; 
-            border: 1px solid #ffd700; 
-            transition: background 0.3s;
-            display: flex;
-            align-items: center;
-            font-family: sans-serif;
-            color: #fff;
-        }
-        #bgmControl:hover { background: rgba(255, 215, 0, 0.5); }
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+        iframe { width: 100%; height: 100%; border: none; }
+        #bgmControl { position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: rgba(255, 215, 0, 0.3); backdrop-filter: blur(5px); padding: 10px 15px; border-radius: 50px; cursor: pointer; border: 1px solid #ffd700; display: flex; align-items: center; font-family: sans-serif; color: #fff; }
         #bgmIcon { font-size: 20px; margin-right: 8px; }
-        #bgmStatus { font-size: 16px; line-height: 1; }
     </style>
 </head>
 <body>
-    <iframe id="contentFrame" src="index.html"></iframe> 
-    <audio id="backgroundMusic" src="music/bgm.mp3" preload="auto" muted loop></audio>
+    <iframe id="contentFrame" src="index.html" name="content"></iframe>
     
+    <audio id="backgroundMusic" src="music/bgm.mp3" loop autoplay muted></audio>
+
     <div id="bgmControl">
         <span id="bgmIcon">🔇</span>
         <span id="bgmStatus">Mute</span>
     </div>
-    
+
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const bgm = document.getElementById('backgroundMusic');
-            const bgmControl = document.getElementById('bgmControl');
-            const bgmIcon = document.getElementById('bgmIcon'); // Mengambil elemen icon
-            const bgmStatus = document.getElementById('bgmStatus'); // Mengambil elemen status
-            const contentFrame = document.getElementById('contentFrame');
-            
-            bgm.play().catch(error => {
-                console.log("Autoplay BGM (muted) gagal, menunggu interaksi.");
-            });
+        const bgm = document.getElementById('backgroundMusic');
+        const bgmControl = document.getElementById('bgmControl');
+        const bgmIcon = document.getElementById('bgmIcon');
+        const bgmStatus = document.getElementById('bgmStatus');
 
-            // === PERBAIKAN SCRIPT UNTUK TOMBOL BGM (LEBIH JELAS) ===
-            bgmControl.addEventListener('click', () => {
-                if (bgm.paused) {
-                    bgm.play().catch(e => console.log("Gagal Play BGM setelah interaksi."));
-                }
-                
-                if (bgm.muted) {
-                    bgm.muted = false;
-                    bgmIcon.textContent = '🎶';
-                    bgmStatus.textContent = 'Unmute';
-                } else {
-                    bgm.muted = true;
-                    bgmIcon.textContent = '🔇';
-                    bgmStatus.textContent = 'Mute';
-                }
-            });
+        const playPromise = bgm.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(e => console.log("Autoplay diblokir, perlu interaksi."));
+        }
 
-            contentFrame.onload = function() {
-                try {
-                    const frameDoc = contentFrame.contentWindow.document;
-                    const audioControlInFrame = frameDoc.getElementById('audioControl');
-                    if (audioControlInFrame) {
-                        audioControlInFrame.addEventListener('click', () => {
-                            const welcomeAudio = frameDoc.getElementById('welcomeAudio');
-                            if (welcomeAudio && welcomeAudio.paused) {
-                                if (!bgm.muted) {
-                                    bgm.muted = true;
-                                    bgmIcon.textContent = '🔇';
-                                    bgmStatus.textContent = 'Mute';
-                                }
-                            }
-                        });
-                    }
-                } catch (e) {
-                    console.warn("Gagal sinkronisasi: ", e);
-                }
-            };
+        bgmControl.addEventListener('click', () => {
+            if (bgm.paused) {
+                bgm.play().catch(e => console.log("Gagal play setelah klik."));
+            }
+            if (bgm.muted) {
+                bgm.muted = false;
+                bgmIcon.textContent = '🎶';
+                bgmStatus.textContent = 'Unmute';
+            } else {
+                bgm.muted = true;
+                bgmIcon.textContent = '🔇';
+                bgmStatus.textContent = 'Mute';
+            }
         });
     </script>
 </body>
 </html>
-
-
