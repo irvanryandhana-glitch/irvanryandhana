@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Portofolio Saya</title>
     <style>
+        /* ... (CSS Umum tetap sama, saya hapus di sini untuk keringkasan) ... */
         * {
             margin: 0;
             padding: 0;
@@ -258,117 +259,63 @@
                 padding: 80px 20px;
             }
         }
+
+        /* ==================== STYLE KHUSUS AUDIO SAMBUTAN BARU ==================== */
         
-        /* ================= MUSIC PLAYER STYLE ================= */
-        .music-player {
-            background: #111;
-            color: #fff;
-            display: flex;
+        /* Kontrol Audio Sambutan (Di kiri bawah) */
+        #audioControl {
+            position: fixed; 
+            bottom: 20px; 
+            left: 20px; 
+            z-index: 1001; 
+            background: rgba(255, 255, 255, 0.2); 
+            backdrop-filter: blur(5px); 
+            padding: 10px 15px; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            border: 1px solid #fff;
+            transition: all 0.3s;
+            display: flex; 
             align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            border-radius: 14px;
-            width: 350px; /* Adjusted width for better fit */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            font-family: Arial, sans-serif;
-            position: fixed; /* Makes the player float */
-            bottom: 20px;   /* Distance from bottom */
-            right: 20px;    /* Distance from right */
-            z-index: 1001;  /* Ensures it's above other content */
+        }
+        
+        #audioControl:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        
+        #audioStatus {
+            color: #fff; 
+            font-size: 16px; /* Dikecilkan sedikit */
+            line-height: 1; 
+            margin-left: 5px;
+        }
+        #audioControl span:first-child {
+            font-size: 20px;
         }
 
-        .music-cover {
-            width: 60px;
-            height: 60px;
+        /* Notifikasi Pop-up Kecil di Kiri Bawah */
+        #welcomePopup {
+            position: fixed;
+            bottom: 70px; 
+            left: 20px;
+            background: #ffd700;
+            color: #000;
+            padding: 10px 15px;
             border-radius: 8px;
-            object-fit: cover;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1002;
+            opacity: 0; 
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+            transform: translateY(10px);
         }
 
-        .music-info {
-            flex-grow: 1;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-
-        .music-info h4 {
-            margin: 0;
-            font-size: 1rem;
-            text-overflow: ellipsis;
-            overflow: hidden;
-        }
-
-        .music-info p {
-            margin: 0;
-            font-size: 0.85rem;
-            color: #aaa;
-        }
-        
-        .player-controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex-grow: 2; /* Gives more space to controls */
-        }
-
-        .controls {
-            display: flex;
-            gap: 1rem; /* Increased gap */
-            align-items: center;
-        }
-
-        .controls button {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .controls button:hover {
-            transform: scale(1.2);
-            color: #ffd700; /* Changed to match theme */
-        }
-
-        .progress-container {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            width: 100%;
-            margin-top: 5px;
-        }
-        
-        .progress-container span {
-            font-size: 0.75rem;
-        }
-
-        #progress {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 100%;
-            height: 5px;
-            background: #444;
-            border-radius: 5px;
-            cursor: pointer;
-            outline: none;
-        }
-
-        #progress::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 15px;
-            height: 15px;
-            background: #ffd700;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        #progress::-moz-range-thumb {
-            width: 15px;
-            height: 15px;
-            background: #ffd700;
-            border-radius: 50%;
-            cursor: pointer;
+        #welcomePopup.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -385,10 +332,11 @@
     <nav>
         <div class="logo">Portfolio</div>
         <ul>
-            <li><a href="index.html" class="active">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="education.html">Education</a></li>
-            <li><a href="contact.html">contact</a></li>
+            <li><a href="index.html" class="active" target="_self">Home</a></li>
+            <li><a href="about.html" target="_self">About</a></li>
+            <li><a href="education.html" target="_self">Education</a></li>
+            <li><a href="project.html" target="_self">Project</a></li> 
+            <li><a href="contact.html" target="_self">contact</a></li>
         </ul>
         <div class="social-icons">
             <a href="https://wa.me/085137756212" class="social-icon" target="_blank">
@@ -410,86 +358,89 @@
                 <h1>Halo, Saya <span class="gradient-text">I Putu Irvan Ryandhana</span></h1>
                 <p>Web Developer & Busines</p>
                 <div class="cta-buttons">
-                    <a href="about.html" class="cta-button">Kenali Saya</a>
-                    <a href="education.html" class="cta-button">Lihat Pendidikan</a>
-                    <a href="contact.html" class="cta-button">Lihat Contact</a>
+                    <a href="about.html" class="cta-button" target="_self">Kenali Saya</a>
+                    <a href="education.html" class="cta-button" target="_self">Lihat Pendidikan</a>
+                    <a href="project.html" class="cta-button" target="_self">Lihat Project</a>
+                    <a href="contact.html" class="cta-button" target="_self">Lihat Contact</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="music-player">
-        <img src="image/maxresdefault.jpg" alt="Cover" class="music-cover">
-        <div class="music-info">
-            <h4>White Swan</h4>
-            <p>Overheat</p>
-        </div>
-        <div class="player-controls">
-            <div class="controls">
-                <button id="prevBtn">⏮</button>
-                <button id="playBtn">▶</button>
-                <button id="nextBtn">⏭</button>
-            </div>
-            <div class="progress-container">
-                <span id="currentTime">0:00</span>
-                <input type="range" id="progress" value="0" min="0" max="100">
-                <span id="duration">0:00</span>
-            </div>
-        </div>
-        <audio id="audioPlayer" loop>
-            <source src="music/White Swan - Overheat [Official Lyric Video] [r0Wj11aH4hY].mp3" type="audio/mpeg">
-        </audio>
+    <audio id="welcomeAudio" src="music/ElevenLabs_Text_to_Speech_audio.mp3" preload="auto"></audio>
+
+    <div id="audioControl">
+        <span id="audioIcon">🔇</span>
+        <span id="audioStatus">Dengarkan Sambutan</span>
     </div>
 
+    <div id="welcomePopup">
+        Klik ikon 🔇 di bawah untuk mendengarkan sambutan dari AI!
+    </div>
     <script>
-        const audio = document.getElementById("audioPlayer");
-        const playBtn = document.getElementById("playBtn");
-        const progress = document.getElementById("progress");
-        const currentTimeEl = document.getElementById("currentTime");
-        const durationEl = document.getElementById("duration");
+        document.addEventListener("DOMContentLoaded", () => {
+            const path = window.location.pathname;
+            document.querySelectorAll('nav a').forEach(link => {
+                if (link.href.endsWith(path)) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
 
-        function formatTime(seconds) {
-            const min = Math.floor(seconds / 60);
-            const sec = Math.floor(seconds % 60);
-            return `${min}:${sec < 10 ? '0' + sec : sec}`;
-        }
-
-        // Play & Pause
-        playBtn.addEventListener("click", () => {
-            if (audio.paused) {
-                audio.play();
-                playBtn.textContent = "⏸";
-            } else {
-                audio.pause();
-                playBtn.textContent = "▶";
+            // ================= LOGIKA AUDIO SAMBUTAN AI (POP-UP) =================
+            const audio = document.getElementById('welcomeAudio');
+            const audioControl = document.getElementById('audioControl');
+            const audioStatus = document.getElementById('audioStatus');
+            const audioIcon = document.getElementById('audioIcon');
+            const welcomePopup = document.getElementById('welcomePopup');
+            
+            function playWelcomeAudio() {
+                const playPromise = audio.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        audioIcon.textContent = '🔊';
+                        audioStatus.textContent = 'Sambutan Aktif';
+                        welcomePopup.classList.remove('show'); 
+                        audio.loop = false;
+                        
+                        // Sinkronisasi BGM di parent frame (wrapper.html)
+                        if (window.parent !== window && window.parent.document.getElementById('backgroundMusic')) {
+                            const parentBGM = window.parent.document.getElementById('backgroundMusic');
+                            const parentBGMStatus = window.parent.document.getElementById('bgmStatus');
+                            
+                            // Mute BGM di parent frame
+                            if (!parentBGM.muted) {
+                                parentBGM.muted = true;
+                                parentBGMStatus.textContent = '🔇 Mute';
+                            }
+                        }
+                    }).catch(error => {
+                        // Jika Autoplay diblokir, tampilkan pop-up kecil
+                        welcomePopup.classList.add('show');
+                        setTimeout(() => welcomePopup.classList.remove('show'), 5000);
+                    });
+                }
             }
-        });
 
-        // Update progress bar
-        audio.addEventListener("timeupdate", () => {
-            if (audio.duration) {
-                progress.value = (audio.currentTime / audio.duration) * 100;
-                currentTimeEl.textContent = formatTime(audio.currentTime);
-            }
-        });
-
-        // Set duration when loaded
-        audio.addEventListener("loadedmetadata", () => {
-            durationEl.textContent = formatTime(audio.duration);
-        });
-
-        // Seek functionality
-        progress.addEventListener("input", () => {
-            if (audio.duration) {
-                audio.currentTime = (progress.value / 100) * audio.duration;
-            }
-        });
-
-        // Optional: Reset player when music ends
-        audio.addEventListener("ended", () => {
-            playBtn.textContent = "▶";
-            progress.value = 0;
-            currentTimeEl.textContent = "0:00";
+            // Saat kontrol Audio Sambutan diklik
+            audioControl.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play();
+                    audioIcon.textContent = '🔊';
+                    audioStatus.textContent = 'Sambutan Aktif';
+                    welcomePopup.classList.remove('show');
+                } else {
+                    audio.pause();
+                    audioIcon.textContent = '🔇';
+                    audioStatus.textContent = 'Dengarkan Sambutan';
+                }
+            });
+            
+            // Coba putar audio saat DOM dimuat
+            playWelcomeAudio();
+            // ================= AKHIR LOGIKA AUDIO SAMBUTAN =================
         });
     </script>
 </body>
