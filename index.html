@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Portofolio Saya</title>
-
-    <meta http-equiv="refresh" content="0; url=wrapper.html">
     <style>
-        /* ... (CSS Umum tetap sama, saya hapus di sini untuk keringkasan) ... */
         * {
             margin: 0;
             padding: 0;
@@ -24,35 +21,13 @@
         }
 
         @keyframes backgroundAnimation {
-            0% {
-                background: linear-gradient(135deg, #000000 0%, #555555 100%);
-            }
-            50% {
-                background: linear-gradient(135deg, #333333 0%, #777777 100%);
-            }
-            100% {
-                background: linear-gradient(135deg, #000000 0%, #555555 100%);
-            }
+            0% { background: linear-gradient(135deg, #000000 0%, #555555 100%); }
+            50% { background: linear-gradient(135deg, #333333 0%, #777777 100%); }
+            100% { background: linear-gradient(135deg, #000000 0%, #555555 100%); }
         }
 
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .bubble {
-            position: absolute;
-            bottom: -100px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: rise 15s infinite ease-in;
-        }
-
+        .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
+        .bubble { position: absolute; bottom: -100px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; animation: rise 15s infinite ease-in; }
         .bubble:nth-child(1) { width: 80px; height: 80px; left: 10%; animation-delay: 0s; }
         .bubble:nth-child(2) { width: 100px; height: 100px; left: 20%; animation-delay: 2s; }
         .bubble:nth-child(3) { width: 60px; height: 60px; left: 35%; animation-delay: 4s; }
@@ -60,296 +35,74 @@
         .bubble:nth-child(5) { width: 70px; height: 70px; left: 70%; animation-delay: 3s; }
         .bubble:nth-child(6) { width: 110px; height: 110px; left: 85%; animation-delay: 5s; }
 
-        @keyframes rise {
-            to {
-                bottom: 110%;
-                transform: translateX(100px);
-            }
-        }
+        @keyframes rise { to { bottom: 110%; transform: translateX(100px); } }
 
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); padding: 20px; z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 28px; font-weight: bold; background: linear-gradient(45deg, #fff, #f0f0f0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        nav ul { display: flex; list-style: none; gap: 40px; justify-content: center; }
+        nav a { color: #fff; text-decoration: none; font-size: 18px; font-weight: 500; transition: all 0.3s; position: relative; }
+        nav a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: #fff; transition: width 0.3s; }
+        nav a:hover::after, nav a.active::after { width: 100%; }
+        nav a:hover { transform: translateY(-2px); }
+        nav a.active { font-weight: 700; }
 
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-            background: linear-gradient(45deg, #fff, #f0f0f0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+        .home-section { min-height: 100vh; padding: 100px 50px; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        .container { max-width: 1200px; width: 100%; text-align: center; }
+        .home-content h1 { font-size: 72px; margin-bottom: 20px; animation: fadeInUp 1s ease; }
+        .home-content .gradient-text { background: linear-gradient(45deg, #fff, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .home-content p { font-size: 24px; margin-bottom: 40px; animation: fadeInUp 1s ease 0.2s backwards; }
+        .cta-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; animation: fadeInUp 1s ease 0.4s backwards; }
+        .cta-button { display: inline-block; padding: 15px 40px; background: rgba(255, 255, 255, 0.2); border: 2px solid #fff; border-radius: 50px; color: #fff; text-decoration: none; font-size: 18px; font-weight: bold; transition: all 0.3s; }
+        .cta-button:hover { background: #fff; color: #667eea; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3); }
+        .profile-image { border-radius: 50%; width: 150px; height: 150px; object-fit: cover; margin-bottom: 20px; border: 5px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); transition: transform 0.3s, box-shadow 0.3s; }
+        .profile-image:hover { transform: scale(1.05); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); }
+        .social-icons { display: flex; align-items: center; gap: 5px; }
+        .social-icon img { width: 30px; height: 30px; border-radius: 50%; object-fit: contain; transition: transform 0.3s; }
+        .social-icon img:hover { transform: scale(1.1); }
 
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 40px;
-            justify-content: center;
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: 500;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #fff;
-            transition: width 0.3s;
-        }
-
-        nav a:hover::after,
-        nav a.active::after {
-            width: 100%;
-        }
-
-        nav a:hover {
-            transform: translateY(-2px);
-        }
-
-        nav a.active {
-            font-weight: 700;
-        }
-
-        .home-section {
-            min-height: 100vh;
-            padding: 100px 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-
-        .container {
-            max-width: 1200px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .home-content h1 {
-            font-size: 72px;
-            margin-bottom: 20px;
-            animation: fadeInUp 1s ease;
-        }
-
-        .home-content .gradient-text {
-            background: linear-gradient(45deg, #fff, #ffd700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .home-content p {
-            font-size: 24px;
-            margin-bottom: 40px;
-            animation: fadeInUp 1s ease 0.2s backwards;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeInUp 1s ease 0.4s backwards;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 15px 40px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid #fff;
-            border-radius: 50px;
-            color: #fff;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .cta-button:hover {
-            background: #fff;
-            color: #667eea;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
-        }
-
-        .profile-image {
-            border-radius: 50%;
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            margin-bottom: 20px;
-            border: 5px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .profile-image:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .social-icons {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .social-icon img {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            object-fit: contain;
-            transition: transform 0.3s;
-        }
-
-        .social-icon img:hover {
-            transform: scale(1.1);
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 768px) {
-            nav {
-                padding: 20px;
-            }
-
-            nav ul {
-                gap: 20px;
-            }
-
-            nav a {
-                font-size: 16px;
-            }
-
-            .home-content h1 {
-                font-size: 42px;
-            }
-
-            .home-content p {
-                font-size: 18px;
-            }
-
-            .home-section {
-                padding: 80px 20px;
-            }
+            nav { padding: 20px; }
+            nav ul { gap: 20px; }
+            nav a { font-size: 16px; }
+            .home-content h1 { font-size: 42px; }
+            .home-content p { font-size: 18px; }
+            .home-section { padding: 80px 20px; }
         }
 
-        /* ==================== STYLE KHUSUS AUDIO SAMBUTAN BARU ==================== */
-        
-        /* Kontrol Audio Sambutan (Di kiri bawah) */
-        #audioControl {
-            position: fixed; 
-            bottom: 20px; 
-            left: 20px; 
-            z-index: 1001; 
-            background: rgba(255, 255, 255, 0.2); 
-            backdrop-filter: blur(5px); 
-            padding: 10px 15px; 
-            border-radius: 50px; 
-            cursor: pointer; 
-            border: 1px solid #fff;
-            transition: all 0.3s;
-            display: flex; 
-            align-items: center;
-        }
-        
-        #audioControl:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
-        
-        #audioStatus {
-            color: #fff; 
-            font-size: 16px; /* Dikecilkan sedikit */
-            line-height: 1; 
-            margin-left: 5px;
-        }
-        #audioControl span:first-child {
-            font-size: 20px;
-        }
+        #audioControl { position: fixed; bottom: 20px; left: 20px; z-index: 1001; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(5px); padding: 10px 15px; border-radius: 50px; cursor: pointer; border: 1px solid #fff; transition: all 0.3s; display: flex; align-items: center; }
+        #audioControl:hover { background: rgba(255, 255, 255, 0.4); }
+        #audioStatus { color: #fff; font-size: 16px; line-height: 1; margin-left: 5px; }
+        #audioControl span:first-child { font-size: 20px; }
+        #welcomePopup { position: fixed; bottom: 80px; left: 20px; background: #ffd700; color: #000; padding: 10px 15px; border-radius: 8px; font-size: 14px; font-weight: 600; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); z-index: 1002; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s, transform 0.3s; transform: translateY(10px); }
+        #welcomePopup.show { opacity: 1; visibility: visible; transform: translateY(0); }
 
-        /* Notifikasi Pop-up Kecil di Kiri Bawah */
-        #welcomePopup {
-            position: fixed;
-            bottom: 70px; 
-            left: 20px;
-            background: #ffd700;
-            color: #000;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            z-index: 1002;
-            opacity: 0; 
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
-            transform: translateY(10px);
-        }
-
-        #welcomePopup.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
+        /* === STYLE TAMBAHAN UNTUK MUSIK LATAR (BGM) === */
+        #bgmControl { position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: rgba(255, 215, 0, 0.3); backdrop-filter: blur(5px); padding: 10px 15px; border-radius: 50px; cursor: pointer; border: 1px solid #ffd700; transition: background 0.3s; display: flex; align-items: center; font-family: sans-serif; color: #fff; }
+        #bgmControl:hover { background: rgba(255, 215, 0, 0.5); }
+        #bgmIcon { font-size: 20px; margin-right: 8px; }
+        #bgmStatus { font-size: 16px; line-height: 1; }
     </style>
 </head>
 <body>
     <div class="bg-animation">
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
-        <div class="bubble"></div>
+        <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
     </div>
 
     <nav>
         <div class="logo">Portfolio</div>
         <ul>
-            <li><a href="index.html" class="active" target="_self">Home</a></li>
-            <li><a href="about.html" target="_self">About</a></li>
-            <li><a href="education.html" target="_self">Education</a></li>
-            <li><a href="project.html" target="_self">Project</a></li> 
-            <li><a href="contact.html" target="_self">contact</a></li>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="education.html">Education</a></li>
+            <li><a href="project.html">Project</a></li> 
+            <li><a href="contact.html">contact</a></li>
         </ul>
         <div class="social-icons">
-            <a href="https://wa.me/085137756212" class="social-icon" target="_blank">
-                <img src="image/whatshap.png" alt="WhatsApp">
-            </a>
-            <a href="https://www.instagram.com/ryandhanaa02_?utm" class="social-icon" target="_blank">
-                <img src="image/4f381a45-e466-4481-ba84-2d7f1800639b.png" alt="Instagram">
-            </a>
-            <a href="https://youtube.com/@ryn3623?si=U_tJR4aaiVvznWfF" class="social-icon" target="_blank">
-                <img src="image/YOUTUBEE.png" alt="YouTube">
-            </a>
+            <a href="https://wa.me/085137756212" class="social-icon" target="_blank"><img src="image/whatshap.png" alt="WhatsApp"></a>
+            <a href="https://www.instagram.com/ryandhanaa02_?utm" class="social-icon" target="_blank"><img src="image/4f381a45-e466-4481-ba84-2d7f1800639b.png" alt="Instagram"></a>
+            <a href="https://youtube.com/@ryn3623?si=U_tJR4aaiVvznWfF" class="social-icon" target="_blank"><img src="image/YOUTUBEE.png" alt="YouTube"></a>
         </div>
     </nav>
 
@@ -360,90 +113,104 @@
                 <h1>Halo, Saya <span class="gradient-text">I Putu Irvan Ryandhana</span></h1>
                 <p>Web Developer & Busines</p>
                 <div class="cta-buttons">
-                    <a href="about.html" class="cta-button" target="_self">Kenali Saya</a>
-                    <a href="education.html" class="cta-button" target="_self">Lihat Pendidikan</a>
-                    <a href="project.html" class="cta-button" target="_self">Lihat Project</a>
-                    <a href="contact.html" class="cta-button" target="_self">Lihat Contact</a>
+                    <a href="about.html" class="cta-button">Kenali Saya</a>
+                    <a href="education.html" class="cta-button">Lihat Pendidikan</a>
+                    <a href="project.html" class="cta-button">Lihat Project</a>
+                    <a href="contact.html" class="cta-button">Lihat Contact</a>
                 </div>
             </div>
         </div>
     </section>
 
     <audio id="welcomeAudio" src="music/ElevenLabs_Text_to_Speech_audio.mp3" preload="auto"></audio>
-
     <div id="audioControl">
         <span id="audioIcon">🔇</span>
         <span id="audioStatus">Dengarkan Sambutan</span>
     </div>
-
     <div id="welcomePopup">
         Klik ikon 🔇 di bawah untuk mendengarkan sambutan dari AI!
     </div>
+    
+    <audio id="backgroundMusic" src="music/BGM.mp3" preload="auto" loop autoplay muted></audio>
+    <div id="bgmControl">
+        <span id="bgmIcon">🔇</span>
+        <span id="bgmStatus">Mute</span>
+    </div>
+
+
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const path = window.location.pathname;
-            document.querySelectorAll('nav a').forEach(link => {
-                if (link.href.endsWith(path)) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
+    document.addEventListener("DOMContentLoaded", () => {
+        // === LOGIKA UNTUK BACKGROUND MUSIC (BGM) ===
+        const bgm = document.getElementById('backgroundMusic');
+        const bgmControl = document.getElementById('bgmControl');
+        const bgmIcon = document.getElementById('bgmIcon');
+        const bgmStatus = document.getElementById('bgmStatus');
 
-            // ================= LOGIKA AUDIO SAMBUTAN AI (POP-UP) =================
-            const audio = document.getElementById('welcomeAudio');
-            const audioControl = document.getElementById('audioControl');
-            const audioStatus = document.getElementById('audioStatus');
-            const audioIcon = document.getElementById('audioIcon');
-            const welcomePopup = document.getElementById('welcomePopup');
-            
-            function playWelcomeAudio() {
-                const playPromise = audio.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise.then(_ => {
-                        audioIcon.textContent = '🔊';
-                        audioStatus.textContent = 'Sambutan Aktif';
-                        welcomePopup.classList.remove('show'); 
-                        audio.loop = false;
-                        
-                        // Sinkronisasi BGM di parent frame (wrapper.html)
-                        if (window.parent !== window && window.parent.document.getElementById('backgroundMusic')) {
-                            const parentBGM = window.parent.document.getElementById('backgroundMusic');
-                            const parentBGMStatus = window.parent.document.getElementById('bgmStatus');
-                            
-                            // Mute BGM di parent frame
-                            if (!parentBGM.muted) {
-                                parentBGM.muted = true;
-                                parentBGMStatus.textContent = '🔇 Mute';
-                            }
-                        }
-                    }).catch(error => {
-                        // Jika Autoplay diblokir, tampilkan pop-up kecil
-                        welcomePopup.classList.add('show');
-                        setTimeout(() => welcomePopup.classList.remove('show'), 5000);
-                    });
-                }
+        // Mencoba putar BGM (muted) saat halaman dimuat
+        const playPromise = bgm.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log("Autoplay BGM diblokir, perlu interaksi pengguna.");
+            });
+        }
+
+        bgmControl.addEventListener('click', () => {
+            if (bgm.paused) { // Perbaikan untuk HP
+                bgm.play().catch(e => console.log("Gagal memutar BGM setelah diklik."));
             }
-
-            // Saat kontrol Audio Sambutan diklik
-            audioControl.addEventListener('click', () => {
-                if (audio.paused) {
-                    audio.play();
-                    audioIcon.textContent = '🔊';
-                    audioStatus.textContent = 'Sambutan Aktif';
-                    welcomePopup.classList.remove('show');
-                } else {
-                    audio.pause();
-                    audioIcon.textContent = '🔇';
-                    audioStatus.textContent = 'Dengarkan Sambutan';
-                }
-            });
-            
-            // Coba putar audio saat DOM dimuat
-            playWelcomeAudio();
-            // ================= AKHIR LOGIKA AUDIO SAMBUTAN =================
+            if (bgm.muted) {
+                bgm.muted = false;
+                bgmIcon.textContent = '🎶';
+                bgmStatus.textContent = 'Unmute';
+            } else {
+                bgm.muted = true;
+                bgmIcon.textContent = '🔇';
+                bgmStatus.textContent = 'Mute';
+            }
         });
+
+        // === LOGIKA UNTUK AUDIO SAMBUTAN (DARI KODE ASLI ANDA) ===
+        const welcomeAudio = document.getElementById('welcomeAudio');
+        const audioControl = document.getElementById('audioControl');
+        const audioStatus = document.getElementById('audioStatus');
+        const audioIcon = document.getElementById('audioIcon');
+        const welcomePopup = document.getElementById('welcomePopup');
+
+        // Coba putar audio sambutan, dan jika gagal, tampilkan pop-up
+        function tryPlayWelcomeAudio() {
+             welcomeAudio.play().catch(error => {
+                welcomePopup.classList.add('show');
+                setTimeout(() => welcomePopup.classList.remove('show'), 5000);
+            });
+        }
+        // (Saya nonaktifkan autoplay sambutan agar tidak bentrok, user harus klik)
+        
+        audioControl.addEventListener('click', () => {
+            if (welcomeAudio.paused) {
+                // Saat audio sambutan diputar, otomatis matikan BGM
+                if (!bgm.muted) {
+                    bgm.muted = true;
+                    bgmIcon.textContent = '🔇';
+                    bgmStatus.textContent = 'Mute';
+                }
+                welcomeAudio.play();
+            } else {
+                welcomeAudio.pause();
+                welcomeAudio.currentTime = 0; // Mengulang dari awal jika diklik lagi
+            }
+        });
+
+        // Update UI tombol sambutan saat play/pause
+        welcomeAudio.onplaying = () => {
+            audioIcon.textContent = '🔊';
+            audioStatus.textContent = 'Sambutan Aktif';
+            welcomePopup.classList.remove('show');
+        };
+        welcomeAudio.onpause = () => {
+            audioIcon.textContent = '🔇';
+            audioStatus.textContent = 'Dengarkan Sambutan';
+        };
+    });
     </script>
 </body>
 </html>
