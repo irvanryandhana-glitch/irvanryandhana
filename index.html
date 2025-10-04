@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Portofolio Saya</title>
-    
-    <meta http-equiv="refresh" content="0; url=wrapper.html">
-
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #000000 0%, #555555 100%); color: #fff; overflow-x: hidden; min-height: 100vh; animation: backgroundAnimation 20s infinite alternate; }
@@ -38,30 +35,18 @@
         .social-icon img:hover { transform: scale(1.1); }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 768px) { nav { padding: 20px; } nav ul { gap: 20px; } nav a { font-size: 16px; } .home-content h1 { font-size: 42px; } .home-content p { font-size: 18px; } .home-section { padding: 80px 20px; } }
+        
+        /* === STYLE UNTUK SEMUA TOMBOL AUDIO === */
         #audioControl { position: fixed; bottom: 20px; left: 20px; z-index: 1001; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(5px); padding: 10px 15px; border-radius: 50px; cursor: pointer; border: 1px solid #fff; transition: all 0.3s; display: flex; align-items: center; }
         #audioControl:hover { background: rgba(255, 255, 255, 0.4); }
         #audioStatus { color: #fff; font-size: 16px; line-height: 1; margin-left: 5px; }
         #audioControl span:first-child { font-size: 20px; }
-        
-        /* === PERBAIKAN POSISI POP-UP YANG TUMPANG TINDIH === */
-        #welcomePopup { 
-            position: fixed; 
-            bottom: 100px; /* SAYA NAIKKAN LAGI MENJADI 100px AGAR ADA JARAK */
-            left: 20px; 
-            background: #ffd700; 
-            color: #000; 
-            padding: 10px 15px; 
-            border-radius: 8px; 
-            font-size: 14px; 
-            font-weight: 600; 
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
-            z-index: 1002; 
-            opacity: 0; 
-            visibility: hidden; 
-            transition: opacity 0.3s, visibility 0.3s, transform 0.3s; 
-            transform: translateY(10px); 
-        }
+        #welcomePopup { position: fixed; bottom: 80px; /* Jarak dinaikkan sedikit */ left: 20px; background: #ffd700; color: #000; padding: 10px 15px; border-radius: 8px; font-size: 14px; font-weight: 600; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); z-index: 1002; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s, transform 0.3s; transform: translateY(10px); }
         #welcomePopup.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        #bgmControl { position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: rgba(255, 215, 0, 0.3); backdrop-filter: blur(5px); padding: 10px 15px; border-radius: 50px; cursor: pointer; border: 1px solid #ffd700; transition: background 0.3s; display: flex; align-items: center; font-family: sans-serif; color: #fff; }
+        #bgmControl:hover { background: rgba(255, 215, 0, 0.5); }
+        #bgmIcon { font-size: 20px; margin-right: 8px; }
+        #bgmStatus { font-size: 16px; line-height: 1; }
     </style>
 </head>
 <body>
@@ -98,6 +83,7 @@
             </div>
         </div>
     </section>
+
     <audio id="welcomeAudio" src="music/ElevenLabs_Text_to_Speech_audio.mp3" preload="auto"></audio>
     <div id="audioControl">
         <span id="audioIcon">🔇</span>
@@ -106,64 +92,78 @@
     <div id="welcomePopup">
         Klik ikon 🔇 di bawah untuk mendengarkan sambutan dari AI!
     </div>
+    
+    <audio id="backgroundMusic" src="music/BGM.mp3" preload="auto" loop autoplay muted></audio>
+    <div id="bgmControl">
+        <span id="bgmIcon">🔇</span>
+        <span id="bgmStatus">Mute</span>
+    </div>
+
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const path = window.location.pathname;
-            document.querySelectorAll('nav a').forEach(link => {
-                if (link.href.endsWith(path)) { link.classList.add('active'); } else { link.classList.remove('active'); }
-            });
-            const audio = document.getElementById('welcomeAudio');
-            const audioControl = document.getElementById('audioControl');
-            const audioStatus = document.getElementById('audioStatus');
-            const audioIcon = document.getElementById('audioIcon');
-            const welcomePopup = document.getElementById('welcomePopup');
-            function playWelcomeAudio() {
-                const playPromise = audio.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(_ => {
-                        audioIcon.textContent = '🔊';
-                        audioStatus.textContent = 'Sambutan Aktif';
-                        welcomePopup.classList.remove('show'); 
-                        audio.loop = false;
-                        if (window.parent !== window && window.parent.document.getElementById('backgroundMusic')) {
-                            const parentBGM = window.parent.document.getElementById('backgroundMusic');
-                            const parentBGMStatus = window.parent.document.getElementById('bgmStatus');
-                            if (!parentBGM.muted) {
-                                parentBGM.muted = true;
-                                parentBGMStatus.textContent = 'Mute';
-                                // cari icon juga di parent
-                                const parentBGMIcon = window.parent.document.getElementById('bgmIcon');
-                                if(parentBGMIcon) parentBGMIcon.textContent = '🔇';
-                            }
-                        }
-                    }).catch(error => {
-                        welcomePopup.classList.add('show');
-                        setTimeout(() => welcomePopup.classList.remove('show'), 5000);
-                    });
-                }
+    document.addEventListener("DOMContentLoaded", () => {
+        // --- LOGIKA UNTUK BACKGROUND MUSIC (BGM) ---
+        const bgm = document.getElementById('backgroundMusic');
+        const bgmControl = document.getElementById('bgmControl');
+        const bgmIcon = document.getElementById('bgmIcon');
+        const bgmStatus = document.getElementById('bgmStatus');
+
+        // Coba putar BGM (muted) saat halaman dimuat
+        // Atribut autoplay di HTML kadang tidak cukup untuk browser modern
+        bgm.play().catch(e => console.log("Browser memblokir autoplay BGM"));
+
+        bgmControl.addEventListener('click', () => {
+            if (bgm.paused) { // Perbaikan untuk HP
+                bgm.play().catch(e => console.log("Gagal play BGM setelah interaksi"));
             }
-            audioControl.addEventListener('click', () => {
-                if (audio.paused) {
-                    audio.play();
-                } else {
-                    audio.pause();
-                }
-            });
-
-            // Sinkronisasi icon dan text saat audio play/pause
-             audio.onplaying = () => {
-                audioIcon.textContent = '🔊';
-                audioStatus.textContent = 'Sambutan Aktif';
-                welcomePopup.classList.remove('show');
-            };
-
-            audio.onpause = () => {
-                audioIcon.textContent = '🔇';
-                audioStatus.textContent = 'Dengarkan Sambutan';
-            };
-
-            playWelcomeAudio();
+            if (bgm.muted) {
+                bgm.muted = false;
+                bgmIcon.textContent = '🎶';
+                bgmStatus.textContent = 'Unmute';
+            } else {
+                bgm.muted = true;
+                bgmIcon.textContent = '🔇';
+                bgmStatus.textContent = 'Mute';
+            }
         });
+
+        // --- LOGIKA UNTUK AUDIO SAMBUTAN ---
+        const welcomeAudio = document.getElementById('welcomeAudio');
+        const audioControl = document.getElementById('audioControl');
+        const audioStatus = document.getElementById('audioStatus');
+        const audioIcon = document.getElementById('audioIcon');
+        const welcomePopup = document.getElementById('welcomePopup');
+
+        audioControl.addEventListener('click', () => {
+            if (welcomeAudio.paused) {
+                // Saat audio sambutan diputar, matikan BGM
+                if (!bgm.muted) {
+                    bgm.muted = true;
+                    bgmIcon.textContent = '🔇';
+                    bgmStatus.textContent = 'Mute';
+                }
+                welcomeAudio.play();
+            } else {
+                welcomeAudio.pause();
+                welcomeAudio.currentTime = 0; // Reset audio ke awal
+            }
+        });
+
+        welcomeAudio.onplaying = () => {
+            audioIcon.textContent = '🔊';
+            audioStatus.textContent = 'Sambutan Aktif';
+            welcomePopup.classList.remove('show');
+        };
+        welcomeAudio.onpause = () => {
+            audioIcon.textContent = '🔇';
+            audioStatus.textContent = 'Dengarkan Sambutan';
+        };
+
+        // Coba putar audio sambutan, jika gagal tampilkan pop-up
+        welcomeAudio.play().catch(error => {
+            welcomePopup.classList.add('show');
+            setTimeout(() => welcomePopup.classList.remove('show'), 5000);
+        });
+    });
     </script>
 </body>
 </html>
