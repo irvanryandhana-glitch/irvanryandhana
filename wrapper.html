@@ -6,16 +6,10 @@
     <title>Portofolio I Putu Irvan Ryandhana</title>
     <style>
         body { margin: 0; padding: 0; background: #000; }
+        iframe { border: none; width: 100vw; height: 100vh; display: block; }
         
-        iframe {
-            border: none;
-            width: 100vw; 
-            height: 100vh; 
-            display: block;
-        }
-
-        /* Style untuk Kontrol BGM (Background Music) di kanan bawah */
-        #bgmControl {
+        /* === PERBAIKAN CSS UNTUK TOMBOL BGM === */
+        #bgmControl { 
             position: fixed; 
             bottom: 20px; 
             right: 20px; 
@@ -25,84 +19,74 @@
             padding: 10px 15px; 
             border-radius: 50px; 
             cursor: pointer; 
-            border: 1px solid #ffd700;
+            border: 1px solid #ffd700; 
             transition: background 0.3s;
             display: flex;
             align-items: center;
             font-family: sans-serif;
+            color: #fff;
         }
-
-        #bgmControl:hover {
-            background: rgba(255, 215, 0, 0.5);
-        }
-
-        #bgmStatus {
-            color: #fff; 
-            font-size: 16px;
-            line-height: 1; 
-        }
+        #bgmControl:hover { background: rgba(255, 215, 0, 0.5); }
+        #bgmIcon { font-size: 20px; margin-right: 8px; }
+        #bgmStatus { font-size: 16px; line-height: 1; }
     </style>
 </head>
 <body>
     <iframe id="contentFrame" src="index.html"></iframe> 
-
     <audio id="backgroundMusic" src="music/BGM.mp3" preload="auto" muted loop></audio>
-
+    
     <div id="bgmControl">
-        <span id="bgmStatus">🔇 Mute</span>
+        <span id="bgmIcon">🔇</span>
+        <span id="bgmStatus">Mute</span>
     </div>
     
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const bgm = document.getElementById('backgroundMusic');
             const bgmControl = document.getElementById('bgmControl');
-            const bgmStatus = document.getElementById('bgmStatus');
+            const bgmIcon = document.getElementById('bgmIcon'); // Mengambil elemen icon
+            const bgmStatus = document.getElementById('bgmStatus'); // Mengambil elemen status
             const contentFrame = document.getElementById('contentFrame');
             
-            // Mencoba memutar BGM (dalam keadaan muted) saat halaman dimuat
-            // Ini membantu agar audio siap saat di-unmute
             bgm.play().catch(error => {
-                console.log("Autoplay BGM (muted) diblokir, akan diputar setelah interaksi.");
+                console.log("Autoplay BGM (muted) gagal, menunggu interaksi.");
             });
 
-            // Logika kontrol BGM yang sudah diperbaiki untuk HP
+            // === PERBAIKAN SCRIPT UNTUK TOMBOL BGM (LEBIH JELAS) ===
             bgmControl.addEventListener('click', () => {
-                // Perbaikan untuk HP: paksa play jika ternyata dijeda oleh browser
                 if (bgm.paused) {
-                    bgm.play().catch(e => console.log("Gagal play BGM setelah interaksi."));
+                    bgm.play().catch(e => console.log("Gagal Play BGM setelah interaksi."));
                 }
-
-                // Logika untuk mute dan unmute
+                
                 if (bgm.muted) {
-                    bgm.muted = false; // UNMUTE
-                    bgmStatus.textContent = '🎶 Unmute';
+                    bgm.muted = false;
+                    bgmIcon.textContent = '🎶';
+                    bgmStatus.textContent = 'Unmute';
                 } else {
-                    bgm.muted = true; // MUTE
-                    bgmStatus.textContent = '🔇 Mute';
+                    bgm.muted = true;
+                    bgmIcon.textContent = '🔇';
+                    bgmStatus.textContent = 'Mute';
                 }
             });
 
-            // Sinkronisasi: Mute BGM jika audio sambutan di dalam iframe diputar
             contentFrame.onload = function() {
                 try {
                     const frameDoc = contentFrame.contentWindow.document;
                     const audioControlInFrame = frameDoc.getElementById('audioControl');
-
                     if (audioControlInFrame) {
                         audioControlInFrame.addEventListener('click', () => {
                             const welcomeAudio = frameDoc.getElementById('welcomeAudio');
-                            
-                            // Jika audio sambutan akan berputar, maka mute BGM
                             if (welcomeAudio && welcomeAudio.paused) {
                                 if (!bgm.muted) {
                                     bgm.muted = true;
-                                    bgmStatus.textContent = '🔇 Mute';
+                                    bgmIcon.textContent = '🔇';
+                                    bgmStatus.textContent = 'Mute';
                                 }
                             }
                         });
                     }
                 } catch (e) {
-                    console.warn("Tidak dapat mengakses konten iframe untuk sinkronisasi audio.", e);
+                    console.warn("Gagal sinkronisasi: ", e);
                 }
             };
         });
