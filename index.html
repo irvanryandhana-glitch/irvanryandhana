@@ -43,7 +43,7 @@
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 768px) { nav { padding: 20px; } nav ul { gap: 20px; } nav a { font-size: 16px; } .home-content h1 { font-size: 42px; } .home-content p { font-size: 18px; } .home-section { padding: 80px 20px; } }
         
-        /* === STYLE AUDIO SAMBUTAN === */
+        /* === KODE CSS AUDIO AI DIKEMBALIKAN === */
         #audioControl { position: fixed; bottom: 20px; left: 20px; z-index: 1001; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(5px); padding: 10px 15px; border-radius: 50px; cursor: pointer; border: 1px solid #fff; transition: all 0.3s; display: flex; align-items: center; }
         #audioControl:hover { background: rgba(255, 255, 255, 0.4); }
         #audioStatus { color: #fff; font-size: 16px; line-height: 1; margin-left: 5px; }
@@ -59,19 +59,18 @@
     <nav>
         <div class="logo">Portfolio</div>
         <ul>
-            <li><a href="index.html" class="active" target="_top">Home</a></li>
-            <li><a href="about.html" target="_top">About</a></li>
-            <li><a href="education.html" target="_top">Education</a></li>
-            <li><a href="project.html" target="_top">Project</a></li> 
-            <li><a href="contact.html" target="_top">contact</a></li>
+            <li><a href="index.html" target="content" class="active">Home</a></li>
+            <li><a href="about.html" target="content">About</a></li>
+            <li><a href="education.html" target="content">Education</a></li>
+            <li><a href="project.html" target="content">Project</a></li> 
+            <li><a href="contact.html" target="content">contact</a></li>
         </ul>
         <div class="social-icons">
             <a href="https://wa.me/085137756212" class="social-icon" target="_blank"><img src="image/whatshap.png" alt="WhatsApp"></a>
-            <a href="https://www.instagram.com/ryandhanaa02_?utm" class="social-icon" target="_blank"><img src="image/4f381a45-e466-4b81-ba84-2d7f1800639b.png" alt="Instagram"></a>
+            <a href="https://www.instagram.com/ryandhanaa02_?utm" class="social-icon" target="_blank"><img src="image/4f381a45-e466-4481-ba84-2d7f1800639b.png" alt="Instagram"></a>
             <a href="https://youtube.com/@ryn3623?si=U_tJR4aaiVvznWfF" class="social-icon" target="_blank"><img src="image/YOUTUBEE.png" alt="YouTube"></a>
         </div>
     </nav>
-
     <section class="home-section">
         <div class="container">
             <img src="image/profilee.jpg" alt="Foto Profil" class="profile-image">
@@ -79,15 +78,15 @@
                 <h1>Halo, Saya <span class="gradient-text">I Putu Irvan Ryandhana</span></h1>
                 <p>Web Developer & Busines</p>
                 <div class="cta-buttons">
-                    <a href="about.html" class="cta-button" target="_top">Kenali Saya</a>
-                    <a href="education.html" class="cta-button" target="_top">Lihat Pendidikan</a>
-                    <a href="project.html" class="cta-button" target="_top">Lihat Project</a>
-                    <a href="contact.html" class="cta-button" target="_top">Lihat Contact</a>
+                    <a href="about.html" class="cta-button" target="content">Kenali Saya</a>
+                    <a href="education.html" class="cta-button" target="content">Lihat Pendidikan</a>
+                    <a href="project.html" class="cta-button" target="content">Lihat Project</a>
+                    <a href="contact.html" class="cta-button" target="content">Lihat Contact</a>
                 </div>
             </div>
         </div>
     </section>
-
+    
     <audio id="welcomeAudio" src="music/ElevenLabs_Text_to_Speech_audio.mp3" preload="auto"></audio>
     <div id="audioControl">
         <span id="audioIcon">🔇</span>
@@ -96,19 +95,19 @@
     <div id="welcomePopup">
         Klik ikon 🔇 di bawah untuk mendengarkan sambutan dari AI!
     </div>
-    
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            // Script untuk menu aktif
             const path = window.location.pathname;
             document.querySelectorAll('nav a').forEach(link => {
-                if (link.href.endsWith(path.split('/').pop())) { 
+                link.classList.remove('active');
+                if (link.href.endsWith(path.split('/').pop())) {
                     link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
                 }
             });
 
-            // --- LOGIKA UNTUK AUDIO SAMBUTAN ---
+            // Script untuk audio sambutan
             const welcomeAudio = document.getElementById('welcomeAudio');
             const audioControl = document.getElementById('audioControl');
             const audioStatus = document.getElementById('audioStatus');
@@ -117,11 +116,16 @@
 
             audioControl.addEventListener('click', () => {
                 if (welcomeAudio.paused) {
-                    // Berkomunikasi dengan wrapper.html untuk mematikan BGM
+                    // Berkomunikasi dengan wrapper untuk mematikan BGM
                     if (window.parent !== window) {
                         const parentBGM = window.parent.document.getElementById('backgroundMusic');
+                        const parentBGMIcon = window.parent.document.getElementById('bgmIcon');
+                        const parentBGMStatus = window.parent.document.getElementById('bgmStatus');
+
                         if (parentBGM && !parentBGM.muted) {
-                            parentBGM.click(); // Mensimulasikan klik pada tombol BGM di parent
+                            parentBGM.muted = true;
+                            if (parentBGMIcon) parentBGMIcon.textContent = '🔇';
+                            if (parentBGMStatus) parentBGMStatus.textContent = 'Mute';
                         }
                     }
                     welcomeAudio.play();
@@ -136,20 +140,15 @@
                 audioStatus.textContent = 'Sambutan Aktif';
                 welcomePopup.classList.remove('show');
             };
-
             welcomeAudio.onpause = () => {
                 audioIcon.textContent = '🔇';
                 audioStatus.textContent = 'Dengarkan Sambutan';
             };
 
-            // Tampilkan pop-up setelah 3 detik jika audio belum diputar
+            // Tampilkan popup setelah beberapa saat
             setTimeout(() => {
-                if (welcomeAudio.paused) {
-                    welcomePopup.classList.add('show');
-                }
+                if (welcomeAudio.paused) { welcomePopup.classList.add('show'); }
             }, 3000);
-            
-            // Sembunyikan pop-up setelah 5 detik berikutnya
             setTimeout(() => {
                 welcomePopup.classList.remove('show');
             }, 8000);
