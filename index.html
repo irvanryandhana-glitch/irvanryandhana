@@ -35,6 +35,7 @@
         .social-icon img:hover { transform: scale(1.1); }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 768px) { nav { padding: 20px; } nav ul { gap: 20px; } nav a { font-size: 16px; } .home-content h1 { font-size: 42px; } .home-content p { font-size: 18px; } .home-section { padding: 80px 20px; } }
+        
         #bgmControl { position: fixed; bottom: 20px; right: 20px; z-index: 1001; background: rgba(255, 215, 0, 0.3); backdrop-filter: blur(5px); padding: 10px 15px; border-radius: 50px; cursor: pointer; border: 1px solid #ffd700; transition: background 0.3s; display: flex; align-items: center; font-family: sans-serif; color: #fff; }
         #bgmControl:hover { background: rgba(255, 215, 0, 0.5); }
         #bgmIcon { font-size: 20px; margin-right: 8px; }
@@ -92,7 +93,7 @@
         const playPromise = bgm.play();
         if (playPromise !== undefined) {
             playPromise.catch(error => {
-                console.log("Autoplay diblokir oleh browser, perlu interaksi pengguna.");
+                console.log("Autoplay diblokir browser, perlu interaksi pengguna.");
             });
         }
 
